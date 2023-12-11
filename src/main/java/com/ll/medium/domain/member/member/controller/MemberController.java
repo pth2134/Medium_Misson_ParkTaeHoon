@@ -1,4 +1,4 @@
-package com.ll.medium.domain.member.member;
+package com.ll.medium.domain.member.member.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
