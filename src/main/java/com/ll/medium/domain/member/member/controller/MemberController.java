@@ -2,6 +2,7 @@ package com.ll.medium.domain.member.member.controller;
 
 import com.ll.medium.domain.member.member.entity.Member;
 import com.ll.medium.domain.member.member.service.MemberService;
+import com.ll.medium.global.rq.Rq;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequiredArgsConstructor
 public class MemberController {
     private final MemberService memberService;
+    private final Rq rq;
     @GetMapping("/join")
     public String showJoin(){
         return "domain/member/member/join";
@@ -35,6 +37,9 @@ public class MemberController {
     public String signup(@Valid JoinForm joinForm){
         Member member = memberService.join(joinForm.getUsername(), joinForm.getPassword());
         long id = member.getId();
-        return "redirect:/?msg=No %d member joined.".formatted(id);
+
+        return rq.redirect("/",
+                "%d님 환영합니다. 회원가입이 완료되었습니다. 로그인 후 이용해주세요.".formatted(id)
+        );
     }
 }
