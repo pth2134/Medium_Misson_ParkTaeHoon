@@ -36,10 +36,11 @@ public class MemberController {
     @PostMapping("/join")
     public String signup(@Valid JoinForm joinForm){
         Member member = memberService.join(joinForm.getUsername(), joinForm.getPassword());
-        long id = member.getId();
-
+        if(member == null){
+            return rq.historyBack("이미 존재하는 회원입니다.");
+        }
         return rq.redirect("/",
-                "%d님 환영합니다. 회원가입이 완료되었습니다. 로그인 후 이용해주세요.".formatted(id)
+                "%d님 환영합니다. 회원가입이 완료되었습니다. 로그인 후 이용해주세요.".formatted(member.getId())
         );
     }
 }
