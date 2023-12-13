@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("/adm")
 public class AdmHomeController {
 
     @GetMapping("/")
@@ -13,7 +13,7 @@ public class AdmHomeController {
         return "domain/home/home/adm/main";
     }
 
-    @GetMapping("/about")
+    @GetMapping("/home/about")
     public String showAbout(){
         return "domain/home/home/adm/about";
     }
