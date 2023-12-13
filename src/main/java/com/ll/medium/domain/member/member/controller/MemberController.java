@@ -39,4 +39,10 @@ public class MemberController {
         RsData<Member> joinRs = memberService.join(joinForm.getUsername(), joinForm.getPassword());
         return rq.redirectOrBack(joinRs, "/member/login");
     }
+
+    @GetMapping("/login")
+    public String showLogin(){
+        return "domain/member/member/login";
+    }
+
 }
