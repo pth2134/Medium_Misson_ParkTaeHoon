@@ -39,7 +39,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         return new User(
                 member.getUsername(),
                 member.getPassword(),
-                authorities
+                member.getAuthorities()
         );
     }
 }
