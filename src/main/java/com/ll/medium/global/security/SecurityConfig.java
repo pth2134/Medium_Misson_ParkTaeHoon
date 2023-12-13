@@ -3,6 +3,8 @@ package com.ll.medium.global.security;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 import java.net.URLEncoder;
@@ -35,8 +37,14 @@ public class SecurityConfig {
                                 formLogin
                                         .loginPage("/member/login")
                                         .defaultSuccessUrl("/?msg=" + URLEncoder.encode("환영합니다.", StandardCharsets.UTF_8))
+                                        .failureUrl("/member/login?failMsg=" + URLEncoder.encode("아이디 도는 비밀번호가 일치하지 않습니다.",StandardCharsets.UTF_8))
                 );
 
         return http.build();
+    }
+
+    @Bean
+    PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }
