@@ -16,5 +16,5 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     Page<Post> findByIsPublished(boolean isPublished ,Pageable pageable);
 
-    Page<Post> findByUsername(String username);
+    Page<Post> findByMember(Member member, Pageable pageable);
 }

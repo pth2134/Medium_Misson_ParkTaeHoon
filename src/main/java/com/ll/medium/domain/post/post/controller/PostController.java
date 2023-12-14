@@ -63,10 +63,14 @@ public class PostController {
     }
 
     @GetMapping("/myList")
+    @PreAuthorize("isAuthenticated()")
     public String myList(@RequestParam(defaultValue = "1") int page) {
-        Page<Post> paging = postService.getMyList(page,rq.getUser().getUsername());
+        Page<Post> paging = postService.getMyList(page,rq.getMember());
         rq.setAttribute("page",paging);
 
         return "domain/post/post/list";
     }
+
+
+
 }

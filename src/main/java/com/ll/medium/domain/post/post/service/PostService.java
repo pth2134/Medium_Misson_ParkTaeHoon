@@ -51,12 +51,11 @@ public class PostService {
         }
         return posts;
     }
-
-    public Page<Post> getMyList(int page, String username) {
+    public Page<Post> getMyList(int page, Member member) {
         List<Sort.Order> sorts = new ArrayList<>();
         sorts.add(Sort.Order.desc("createDate"));
         Pageable pageable = PageRequest.of(page - 1, 30, Sort.by(sorts));
-        Page<Post> posts = postRepository.findByUsername(username);
+        Page<Post> posts = postRepository.findByMember(member, pageable);
         if (posts == null) {
             // 빈 페이지 반환
             return new PageImpl<>(new ArrayList<>(), pageable, 0);
