@@ -28,6 +28,12 @@ public class Rq {
     private Member member;
     private User user;
 
+    public String redirect(String url){
+        StringBuilder sb = new StringBuilder();
+        sb.append("redirect:").append(url);
+        return sb.toString();
+    }
+
     public String redirect(String url, String msg) {
         msg = URLEncoder.encode(msg, StandardCharsets.UTF_8);
 

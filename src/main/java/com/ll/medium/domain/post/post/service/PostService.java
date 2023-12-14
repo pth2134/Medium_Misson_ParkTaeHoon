@@ -5,8 +5,13 @@ import com.ll.medium.domain.post.post.entity.Post;
 import com.ll.medium.domain.post.post.reopository.PostRepository;
 import com.ll.medium.global.rsData.RsData.RsData;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -20,6 +25,8 @@ public class PostService {
                 .member(author)
                 .title(title)
                 .content(content)
+                .createDate(LocalDateTime.now())
+                .modifyDate(LocalDateTime.now())
                 .isPublished(isPublished)
                 .build();
         postRepository.save(post);
@@ -33,4 +40,15 @@ public class PostService {
         return postRepository.findTop30ByIsPublishedOrderByIdDesc(b);
     }
 
+    public Page<Post> getList(int page) {
+        List<Sort.Order> sorts = new ArrayList<>();
+        sorts.add(Sort.Order.desc("createDate"));
+        Pageable pageable = PageRequest.of(page - 1, 30, Sort.by(sorts));
+        Page<Post> posts = postRepository.findByIsPublished(true, pageable);
+        if (posts == null) {
+            // 빈 페이지 반환
+            return new PageImpl<>(new ArrayList<>(), pageable, 0);
+        }
+        return posts;
+    }
 }

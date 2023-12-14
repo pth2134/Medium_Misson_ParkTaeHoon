@@ -9,11 +9,13 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/post")
@@ -50,5 +52,13 @@ public class PostController {
         ,postForm.getContent()
         ,postForm.getIsPublished());
         return rq.redirectOrBack(postRs,"/");
+    }
+
+    @GetMapping("/list")
+    public String showList(@RequestParam(defaultValue = "1") int page) {
+        Page<Post> paging = postService.getList(page);
+        rq.setAttribute("page",paging);
+
+        return "domain/post/post/list";
     }
 }

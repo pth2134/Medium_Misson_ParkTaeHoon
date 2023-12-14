@@ -12,8 +12,8 @@ public class HomeController {
     private final Rq rq;
     private final PostService postService;
     @GetMapping("/")
-    public String showMain() {
+    public String showMain(String msg) {
         rq.setAttribute("post",postService.findTop30ByIsPublishedOrderByIdDesc(true));
-        return "domain/home/home/main";
+        return rq.redirect("/post/list");
     }
 }

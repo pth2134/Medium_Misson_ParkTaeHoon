@@ -17,7 +17,7 @@ import java.util.stream.IntStream;
 @RequiredArgsConstructor
 public class NotProd {
     private final MemberService memberService;
-    private PostService postService;
+    private final PostService postService;
 
     @Bean
     public ApplicationRunner initNotProd() {
@@ -25,7 +25,7 @@ public class NotProd {
             memberService.join("user1", "1234");
             memberService.join("user2", "1234");
 
-            IntStream.rangeClosed(7, 50).forEach(i -> {
+            IntStream.rangeClosed(1, 50).forEach(i -> {
                 postService.createPost(memberService.findByUsername("user1").get(), "제목 " + i, "내용 " + i, true);
             });
 
