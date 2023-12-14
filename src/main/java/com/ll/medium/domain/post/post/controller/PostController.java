@@ -68,7 +68,7 @@ public class PostController {
         return "domain/post/post/list";
     }
 
-    @GetMapping("/post/{postId}")
+    @GetMapping("/{postId}")
     public String PostDetail(@PathVariable Long postId){
         Post post = postService.getPostById(postId);
         rq.setAttribute("post",post);

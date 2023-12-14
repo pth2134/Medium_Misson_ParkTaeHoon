@@ -1,14 +1,19 @@
 <!DOCTYPE html>
 <html layout:decorate="~{global/usrLayout}" lang="ko">
 <head>
-    <title>게시글 상세보기</title>
+    <title th:text="|글 ${post.id}번|"></title>
 </head>
 <body>
 <div layout:fragment="content">
-    <h2 th:text="${post.title}"></h2>
-    <p>작성일: <span th:text="${post.createDate}"></span></p>
-    <div th:text="${post.content}"></div>
-    <a th:href="@{/post/list}">목록으로 돌아가기</a>
+    <h1>글 내용</h1>
+    <div>
+        <h3>제목</h3>
+        <div th:text="${post.title}"></div>
+    </div>
+    <div>
+        <h3>내용</h3>
+        <div style="white-space: pre-wrap;" th:text="${post.content}"></div>
+    </div>
 </div>
 </body>
 </html>

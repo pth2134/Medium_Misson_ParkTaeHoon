@@ -10,11 +10,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
-    Optional<Post> findByMember(Member member);
-
     List<Post> findTop30ByIsPublishedOrderByIdDesc(boolean isPublished);
 
     Page<Post> findByIsPublished(boolean isPublished ,Pageable pageable);
 
     Page<Post> findByMember(Member member, Pageable pageable);
+
+    Optional<Post> findById(Long id);
 }
