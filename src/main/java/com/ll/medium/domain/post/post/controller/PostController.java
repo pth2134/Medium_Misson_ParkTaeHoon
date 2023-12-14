@@ -35,7 +35,11 @@ public class PostController {
         private String title;
         @NotBlank
         private String content;
-        private boolean isPublished;
+        private String isPublished;
+
+        public boolean getIsPublished() {
+            return "on".equals(isPublished);
+        }
     }
 
     @PostMapping("/write")
@@ -44,7 +48,7 @@ public class PostController {
         RsData<Post> postRs = postService.createPost(rq.getMember()
                 ,postForm.getTitle()
         ,postForm.getContent()
-        ,postForm.isPublished);
+        ,postForm.getIsPublished());
         return rq.redirectOrBack(postRs,"/");
     }
 }
