@@ -14,6 +14,15 @@
         <h3>내용</h3>
         <div style="white-space: pre-wrap;" th:text="${post.content}"></div>
     </div>
+
+    <div>
+        <a th:if="${@postService.canModify(@rq.member, post)}"
+           th:href="|/post/modify/${post.id}|">글 수정</a>
+        <a method="DELETE" th:if="${@postService.canDelete(@rq.member, post)}" class="btn-link"
+           onclick="return confirm('정말로 삭제하시겠습니까?');" th:href="|/post/delete/${post.id}|">
+            글 삭제
+        </a>
+    </div>
 </div>
 </body>
 </html>

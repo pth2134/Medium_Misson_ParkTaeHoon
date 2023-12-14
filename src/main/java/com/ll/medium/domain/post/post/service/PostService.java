@@ -69,14 +69,31 @@ public class PostService {
     }
 
     @Transactional
-    public void modify(Post post, String title, String content) {
+    public RsData<Post> modify(Post post, String title, String content) {
         post.setTitle(title);
         post.setContent(content);
+        post.setModifyDate(LocalDateTime.now());
+        return RsData.of("200"
+                , "글수정이 완료되었습니다."
+                , post
+        );
     }
 
     public boolean canModify(Member actor, Post post) {
         if (actor == null) return false;
 
         return post.getMember().equals(actor);
+    }
+
+
+
+    public boolean canDelete(Member actor, Post post) {
+        if (actor.isAdmin()) return true;
+
+        return canModify(actor, post);
+    }
+    @Transactional
+    public void delete(long id){
+        postRepository.deleteById(id);
     }
 }

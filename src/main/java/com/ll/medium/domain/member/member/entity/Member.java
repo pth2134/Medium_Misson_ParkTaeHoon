@@ -46,4 +46,8 @@ public class Member {
         }
         return authorities;
     }
+
+    public boolean isAdmin() {
+        return List.of("admin","system").contains(username);
+    }
 }
