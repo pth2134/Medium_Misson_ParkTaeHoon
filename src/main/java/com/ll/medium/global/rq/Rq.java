@@ -1,9 +1,12 @@
 package com.ll.medium.global.rq;
 
+import com.ll.medium.domain.member.member.entity.Member;
+import com.ll.medium.domain.member.member.service.MemberService;
 import com.ll.medium.global.rsData.RsData.RsData;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,6 +24,9 @@ import java.util.Optional;
 public class Rq {
     private final HttpServletRequest request;
     private final HttpServletResponse response;
+    private final MemberService memberService;
+    private Member member;
+    private User user;
 
     public String redirect(String url, String msg) {
         msg = URLEncoder.encode(msg, StandardCharsets.UTF_8);
@@ -44,12 +50,24 @@ public class Rq {
     }
 
     public User getUser(){
-        return Optional.ofNullable(SecurityContextHolder.getContext())
-                .map(SecurityContext::getAuthentication)
-                .map(Authentication::getPrincipal)
-                .filter(it -> it instanceof User)
-                .map(it -> (User) it)
-                .orElse(null);
+        if(user == null) {
+            user = Optional.ofNullable(SecurityContextHolder.getContext())
+                    .map(SecurityContext::getAuthentication)
+                    .map(Authentication::getPrincipal)
+                    .filter(it -> it instanceof User)
+                    .map(it -> (User) it)
+                    .orElseThrow(()-> new AccessDeniedException("인증된 사용자가 없습니다."));
+        }
+        return user;
+    }
+
+    public Member getMember(){
+        if(member==null) {
+            member = memberService
+                    .findByUsername(user.getUsername())
+                    .orElseThrow(()->new AccessDeniedException("잘못된 사용자 정보입니다."));
+        }
+        return member;
     }
 
     public boolean isLogin(){

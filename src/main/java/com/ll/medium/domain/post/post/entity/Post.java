@@ -27,6 +27,7 @@ public class Post {
     private LocalDateTime modifyDate;
     private String title;
     private String content;
+    private boolean isPublished;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;

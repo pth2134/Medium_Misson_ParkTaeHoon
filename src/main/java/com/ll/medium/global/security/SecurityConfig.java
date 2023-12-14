@@ -1,5 +1,7 @@
 package com.ll.medium.global.security;
 
+import com.ll.medium.global.exceptionHandler.CustomAccessDeniedHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -44,6 +46,10 @@ public class SecurityConfig {
                                         "/h2-console/**"
                                 )
                 )
+                .exceptionHandling(
+                        exceptionHandling ->
+                                exceptionHandling.accessDeniedHandler(new CustomAccessDeniedHandler())  // AccessDeniedHandler를 설정합니다.
+                )
                 .formLogin(
                         (formLogin) ->
                                 formLogin
@@ -63,4 +69,7 @@ public class SecurityConfig {
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+    @Autowired
+    private CustomAccessDeniedHandler accessDeniedHandler;
 }
