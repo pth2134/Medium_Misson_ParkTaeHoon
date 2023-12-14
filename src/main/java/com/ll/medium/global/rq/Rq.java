@@ -56,20 +56,23 @@ public class Rq {
                     .map(Authentication::getPrincipal)
                     .filter(it -> it instanceof User)
                     .map(it -> (User) it)
-                    .orElseThrow(()-> new AccessDeniedException("인증된 사용자가 없습니다."));
+                    .orElse(null);
         }
         return user;
     }
 
     public Member getMember(){
         if(member==null) {
+            User user = getUser();
+            if (user == null) {
+                return null;
+            }
             member = memberService
                     .findByUsername(user.getUsername())
                     .orElseThrow(()->new AccessDeniedException("잘못된 사용자 정보입니다."));
         }
         return member;
     }
-
     public boolean isLogin(){
         return getUser() != null;
     }

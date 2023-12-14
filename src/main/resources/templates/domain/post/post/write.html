@@ -1,46 +1,50 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html layout:decorate="~{global/usrLayout}">
+
 <head>
     <title>글 작성</title>
 </head>
+
 <body>
-<h1>글 작성</h1>
-<script>
-    function submitPostForm(form) {
-        form.title.value = form.title.value.trim();
-        form.content.value = form.content.value.trim();
+<div layout:fragment="content">
+    <h1>글 작성</h1>
 
-        if (form.title.value.length == 0) {
-            toastr.warning('제목을 작성해주세요.');
-            form.title.focus();
-            return;
+    <script>
+        function submitPostForm(form) {
+            form.title.value = form.title.value.trim();
+            form.content.value = form.content.value.trim();
+
+            if (form.title.value.length == 0) {
+                toastWarning('제목을 작성해주세요.');
+                form.title.focus();
+                return;
+            }
+
+            if (form.content.value.length == 0) {
+                toastWarning('내용을 작성해주세요.');
+                form.content.focus();
+                return;
+            }
+
+            toastr.success('글작성이 완료되었습니다.');
+            form.submit();
         }
+    </script>
+    <form th:action method="POST" onsubmit="submitPostForm(this); return false;">
+        <div>
+            <label>제목</label><br>
+            <input type="text" name="title" style="width: 500px;"/>
+        </div>
+        <div>
+            <label>내용</label><br>
+            <textarea name="content" style="width: 500px; height: 200px;"></textarea>
+        </div>
+        <div>
+            <input type="checkbox" name="isPublished"/>
+            <span>이 글을 공개하기</span>
+        </div>
+        <button type="submit">작성</button>
+    </form>
+</div>
 
-        if (form.content.value.length == 0) {
-            toastr.warning('내용을 작성해주세요.');
-            form.content.focus();
-            return;
-        }
-
-        toastr.success('글작성이 완료되었습니다.');
-        form.submit();
-    }
-</script>
-<form th:action="@{/post}" th:object="${postForm}" method="post" onsubmit="submitPostForm(this); return false;">
-    <div>
-        <label>Title:</label>
-        <input type="text" th:field="*{title}" required />
-    </div>
-    <div>
-        <label>Content:</label>
-        <textarea th:field="*{content}" required></textarea>
-    </div>
-    <div>
-        <label>Publish:</label>
-        <input type="checkbox" th:field="*{published}" />
-        <span>이 글을 공개하기.</span>
-    </div>
-    <button type="submit">작성</button>
-</form>
 </body>
 </html>

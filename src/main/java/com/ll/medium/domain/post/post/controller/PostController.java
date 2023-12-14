@@ -9,6 +9,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,6 +23,7 @@ public class PostController {
     private final Rq rq;
 
     @GetMapping("/write")
+    @PreAuthorize("isAuthenticated()")
     public String showWrite(){
         return "domain/post/post/write";
     }
@@ -37,7 +39,8 @@ public class PostController {
     }
 
     @PostMapping("/write")
-    public String write(@Valid PostForm postForm , Rq rq){
+    @PreAuthorize("isAuthenticated()")
+    public String write(@Valid PostForm postForm){
         RsData<Post> postRs = postService.createPost(rq.getMember()
                 ,postForm.getTitle()
         ,postForm.getContent()
