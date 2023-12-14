@@ -68,6 +68,15 @@ public class PostController {
         return "domain/post/post/list";
     }
 
+    @GetMapping("/list/nickname/{kw}")
+    public String searchList(@PathVariable String kw
+                             ,@RequestParam(defaultValue = "1") int page) {
+        Page<Post> paging = postService.getSearchListByNickname(kw,page);
+        rq.setAttribute("page",paging);
+
+        return "domain/post/post/list";
+    }
+
     @GetMapping("/{postId}")
     public String PostDetail(@PathVariable Long postId){
         Post post = postService.getPostById(postId);

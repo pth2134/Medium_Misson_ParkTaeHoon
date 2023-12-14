@@ -19,7 +19,36 @@
     <a th:if="${@rq.logout}" href="/member/join">회원가입</a>
     <a th:if="${@rq.login}" href="/member/logout">로그아웃</a><br>
 
-    <form th:action="@{/list/{kw}(kw=${kw})}" method="get">
+    <script>
+        function submitSearchForm(form) {
+            form.kw.value = form.kw.value.trim();
+
+            if (form.kw.value.length < 2) {
+                toastWarning('검색어는 두 글자 이상 입력해야 합니다.');
+                form.kw.focus();
+                return false;
+            }
+
+            var searchType = form.searchType.value; // 검색 유형을 가져옴
+            var actionUrl;
+
+            // 검색 유형에 따라 action URL을 변경
+            if (searchType === 'nickname') {
+                actionUrl = "/post/list/nickname/" + form.kw.value;
+            } else if (searchType === 'title') {
+                actionUrl = "/post/list/title/" + form.kw.value;
+            }
+
+            form.action = actionUrl; // 폼의 action 속성을 변경
+            return true;
+        }
+    </script>
+
+    <form method="get" onsubmit="return submitSearchForm(this);">
+        <select name="searchType">
+            <option value="nickname">Nickname</option>
+            <option value="title">제목</option>
+        </select>
         <input type="text" name="kw" placeholder="검색어를 입력하세요">
         <button type="submit">검색</button>
     </form>

@@ -1,6 +1,7 @@
 package com.ll.medium.domain.post.post.service;
 
 import com.ll.medium.domain.member.member.entity.Member;
+import com.ll.medium.domain.member.member.repository.MemberRepository;
 import com.ll.medium.domain.post.post.entity.Post;
 import com.ll.medium.domain.post.post.reopository.PostRepository;
 import com.ll.medium.global.rsData.RsData.RsData;
@@ -12,12 +13,14 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class PostService {
     private final PostRepository postRepository;
+    private final MemberRepository memberRepository;
 
     @Transactional
     public RsData<Post> createPost(Member author, String title, String content, boolean isPublished) {
@@ -96,5 +99,21 @@ public class PostService {
     @Transactional
     public void delete(long id){
         postRepository.deleteById(id);
+    }
+
+    public Page<Post> getSearchListByNickname(String nickname, int page) {
+        List<Sort.Order> sorts = new ArrayList<>();
+        sorts.add(Sort.Order.desc("createDate"));
+        Pageable pageable = PageRequest.of(page - 1, 30, Sort.by(sorts));
+        Optional<Member> opMember = memberRepository.findByNickname(nickname);
+
+        if(opMember.isEmpty()) return new PageImpl<>(new ArrayList<>(), pageable, 0);
+
+        Page<Post> posts = postRepository.findByMember(opMember.get(), pageable);
+        if (posts == null) {
+            // 빈 페이지 반환
+            return new PageImpl<>(new ArrayList<>(), pageable, 0);
+        }
+        return posts;
     }
 }
