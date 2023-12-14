@@ -17,13 +17,14 @@
     <a th:if="${@rq.login}" href="/post/myList">내 글 리스트</a>
     <a th:if="${@rq.logout}"  href="/member/login">로그인</a>
     <a th:if="${@rq.logout}" href="/member/join">회원가입</a>
-    <a th:if="${@rq.login}" href="/member/logout">로그아웃</a>
+    <a th:if="${@rq.login}" href="/member/logout">로그아웃</a><br>
+
+    <form th:action="@{/list/{kw}(kw=${kw})}" method="get">
+        <input type="text" name="kw" placeholder="검색어를 입력하세요">
+        <button type="submit">검색</button>
+    </form>
 </header>
 
-<form th:action="@{/list/{kw}(kw=${kw})}" method="get">
-    <input type="text" name="kw" placeholder="검색어를 입력하세요">
-    <button type="submit">검색</button>
-</form>
-
 </body>
+
 </html>
