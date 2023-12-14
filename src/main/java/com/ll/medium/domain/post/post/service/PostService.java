@@ -24,9 +24,13 @@ public class PostService {
                 .build();
         postRepository.save(post);
         return RsData.of("200"
-                ,"글작성이 완료되었습니다."
+                , "글작성이 완료되었습니다."
                 , post
         );
+    }
+
+    public Object findTop30ByIsPublishedOrderByIdDesc(boolean b) {
+        return postRepository.findTop30ByIsPublishedOrderByIdDesc(b);
     }
 
 }

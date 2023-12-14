@@ -10,9 +10,10 @@
 
 ## 글작업
 - [x] Post Entity 작성 + Member Entity 수정
-- [ ] GET / : 홈
+- [x] Create Post : 글 작성
+- [x] GET / : 홈
     - 최신글 30개 노출
-- [ ] GET /post/list : 전체 글 리스트
+- [x] GET /post/list : 전체 글 리스트
     - 공개된 글만 노출
 - [ ] GET /post/myList : 내 글 리스트
     - 내 글 목록 조회
