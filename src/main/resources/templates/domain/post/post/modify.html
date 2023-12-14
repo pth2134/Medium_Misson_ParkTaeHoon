@@ -1,0 +1,67 @@
+<html layout:decorate="~{global/usrLayout}">
+
+<head>
+    <title th:text="|게시글 수정 - ${post.id}. ${post.title}|"></title>
+</head>
+
+<body>
+
+<div layout:fragment="content">
+
+    <h1 class="font-bold mb-2">
+        <i class="fa-regular fa-pen-to-square"></i> 게시글 수정
+    </h1>
+
+    <form th:action class="flex flex-col gap-4" method="POST" onsubmit="submitModifyForm(this); return false;">
+        <input type="hidden" name="_method" value="PUT">
+        <div class="form-control">
+            <label class="label">
+                <span class="label-text">제목</span>
+            </label>
+            <input type="text" name="title" th:value="${post.title}" placeholder="제목을 입력해주세요."
+                   class="input input-bordered">
+        </div>
+
+        <div class="form-control">
+            <label class="label">
+                <span class="label-text">내용</span>
+            </label>
+
+            <textarea name="content" th:text="${post.content}" maxlength="10000" rows="5" placeholder="내용을 입력해주세요."
+                      class="textarea textarea-bordered"></textarea>
+        </div>
+
+        <button class="btn btn-primary btn-block" type="submit">
+            <i class="fa-regular fa-pen-to-square"></i> 게시글 수정
+        </button>
+    </form>
+
+    <script>
+        function submitModifyForm(form) {
+            form.title.value = form.title.value.trim();
+
+            if (form.title.value.length == 0) {
+                toastWarning('제목을 입력해주세요.');
+                form.title.focus();
+
+                return;
+            }
+
+            form.body.value = form.body.value.trim();
+
+            if (form.body.value.length == 0) {
+                toastWarning('내용을 입력해주세요.');
+                form.body.focus();
+
+                return;
+            }
+
+            form.submit();
+        }
+    </script>
+
+</div>
+
+</body>
+
+</html>
