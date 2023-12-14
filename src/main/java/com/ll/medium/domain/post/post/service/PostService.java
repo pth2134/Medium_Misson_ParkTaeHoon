@@ -67,4 +67,16 @@ public class PostService {
         return postRepository.findById(postId)
                 .orElseThrow(() -> new IllegalArgumentException("해당하는 게시글이 없습니다. id=" + postId));
     }
+
+    @Transactional
+    public void modify(Post post, String title, String content) {
+        post.setTitle(title);
+        post.setContent(content);
+    }
+
+    public boolean canModify(Member actor, Post post) {
+        if (actor == null) return false;
+
+        return post.getMember().equals(actor);
+    }
 }

@@ -6,6 +6,7 @@ import com.ll.medium.global.rq.Rq;
 import com.ll.medium.global.rsData.RsData.RsData;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -73,5 +74,41 @@ public class PostController {
         Post post = postService.getPostById(postId);
         rq.setAttribute("post",post);
         return "domain/post/post/post_detail";
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/modify/{id}")
+    String showModify(@PathVariable long id) {
+        Post post = postService.getPostById(id);
+
+        if (!postService.canModify(rq.getMember(), post)) throw new RuntimeException("수정권한이 없습니다.");
+
+        rq.setAttribute("post", post);
+
+        return "domain/post/post/modify";
+    }
+    @Data
+    public static class ModifyForm {
+        @NotBlank
+        private String title;
+        @NotBlank
+        private String body;
+        private String isPublished;
+
+        public boolean getIsPublished() {
+            return "on".equals(isPublished);
+        }
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/modify/{id}")
+    String modify(@PathVariable long id, @Valid ModifyForm modifyForm) {
+        Post post = postService.getPostById(id);
+
+        if (!postService.canModify(rq.getMember(), post)) throw new RuntimeException("수정권한이 없습니다.");
+
+        postService.modify(post, modifyForm.title, modifyForm.body);
+
+        return rq.redirect("/", "%d번 게시물 수정되었습니다.".formatted(id));
     }
 }

@@ -17,9 +17,9 @@
     - 공개된 글만 노출
 - [x] GET /post/myList : 내 글 리스트
     - 내 글 목록 조회
-- [ ] GET /post/1 : 1번 글 상세보기
-- [ ] GET /post/write : 글 작성 폼
-- [ ] POST /post/write : 글 작성 처리
+- [x] GET /post/1 : 1번 글 상세보기
+- [x] GET /post/write : 글 작성 폼
+- [x] POST /post/write : 글 작성 처리
 - [ ] GET /post/1/modify : 1번 글 수정 폼
 - [ ] PUT /post/1/modify : 1번 글 수정 폼 처리
 - [ ] DELETE /post/1/delete : 1번 글 삭제
