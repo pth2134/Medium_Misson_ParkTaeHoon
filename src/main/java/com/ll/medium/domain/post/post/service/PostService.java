@@ -62,4 +62,9 @@ public class PostService {
         }
         return posts;
     }
+
+    public Post getPostById(Long postId) {
+        return postRepository.findById(postId)
+                .orElseThrow(() -> new IllegalArgumentException("해당하는 게시글이 없습니다. id=" + postId));
+    }
 }

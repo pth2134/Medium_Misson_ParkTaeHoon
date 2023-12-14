@@ -15,7 +15,7 @@
         <tbody>
         <tr th:each="post : ${page != null ? page.content : ''}">
             <td>
-                <a th:href="@{/post/detail/${post.id}}" th:text="${post.title}"></a>
+                <a th:href="@{|/post/${post.id}|}" th:text="${post.title}"></a>
             </td>
             <td th:text="${post.createDate}"></td>
         </tr>

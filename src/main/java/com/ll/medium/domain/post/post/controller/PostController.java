@@ -12,10 +12,7 @@ import lombok.Setter;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/post")
@@ -71,6 +68,10 @@ public class PostController {
         return "domain/post/post/list";
     }
 
-
-
+    @GetMapping("/post/{postId}")
+    public String PostDetail(@PathVariable Long postId){
+        Post post = postService.getPostById(postId);
+        rq.setAttribute("post",post);
+        return "domain/post/post/post_detail";
+    }
 }
