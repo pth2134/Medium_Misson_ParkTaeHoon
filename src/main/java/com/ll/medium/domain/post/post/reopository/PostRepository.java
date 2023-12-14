@@ -15,4 +15,6 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     List<Post> findTop30ByIsPublishedOrderByIdDesc(boolean isPublished);
 
     Page<Post> findByIsPublished(boolean isPublished ,Pageable pageable);
+
+    Page<Post> findByUsername(String username);
 }

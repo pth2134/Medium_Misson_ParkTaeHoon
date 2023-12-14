@@ -61,4 +61,12 @@ public class PostController {
 
         return "domain/post/post/list";
     }
+
+    @GetMapping("/myList")
+    public String myList(@RequestParam(defaultValue = "1") int page) {
+        Page<Post> paging = postService.getMyList(page,rq.getUser().getUsername());
+        rq.setAttribute("page",paging);
+
+        return "domain/post/post/list";
+    }
 }
