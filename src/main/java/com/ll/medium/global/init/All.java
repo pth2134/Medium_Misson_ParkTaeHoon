@@ -18,8 +18,8 @@ public class All {
     @Order(2)
     public ApplicationRunner initAll(){
         return args -> {
-            memberService.join("admin","1234");
-            memberService.join("system","1234");
+            memberService.join("admin","admin","1234");
+            memberService.join("system","system","1234");
         };
     }
 }

@@ -23,6 +23,7 @@ public class PostService {
     public RsData<Post> createPost(Member author, String title, String content, boolean isPublished) {
         Post post = Post.builder()
                 .member(author)
+                .nickname(author.getNickname())
                 .title(title)
                 .content(content)
                 .createDate(LocalDateTime.now())

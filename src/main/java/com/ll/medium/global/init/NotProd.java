@@ -22,11 +22,11 @@ public class NotProd {
     @Bean
     public ApplicationRunner initNotProd() {
         return args -> {
-            memberService.join("user1", "1234");
-            memberService.join("user2", "1234");
+            memberService.join("user1","user1", "1234");
+            memberService.join("user2","user2", "1234");
 
             IntStream.rangeClosed(1, 50).forEach(i -> {
-                postService.createPost(memberService.findByUsername("user1").get(), "제목 " + i, "내용 " + i, true);
+                postService.createPost(memberService.findByUserId(3).get(), "제목 " + i, "내용 " + i, true);
             });
 
         };

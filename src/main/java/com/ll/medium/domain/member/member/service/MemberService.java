@@ -18,11 +18,15 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public RsData<Member> join(String username, String password) {
+    public RsData<Member> join(String nickname, String username, String password) {
         if(findByUsername(username).isPresent()){
-            return RsData.of("400-2","이미 존재하는 회원입니다.");
+            return RsData.of("400-2","이미 존재하는 회원아이디입니다.");
+        }
+        if(findByNickname(nickname).isPresent()){
+            return RsData.of("400-3","이미 존재하는 별명입니다.");
         }
         Member member = Member.builder()
+                .nickname(nickname)
                         .username(username)
                                 .password(passwordEncoder.encode(password))
                                         .build();
@@ -34,8 +38,15 @@ public class MemberService {
         );
     }
 
+    private Optional<Member> findByNickname(String nickname) {
+        return memberRepository.findByNickname(nickname);
+    }
+
     public Optional<Member> findByUsername(String username) {
         return memberRepository.findByUsername(username);
     }
 
+    public Optional<Member> findByUserId(long id) {
+        return memberRepository.findById(id);
+    }
 }

@@ -34,6 +34,7 @@ public class Member {
     private LocalDateTime modifyDate;
     private String username;
     private String password;
+    private String nickname;
 
     @OneToMany(cascade = CascadeType.REMOVE,fetch = FetchType.LAZY)
     private List<Post> posts;

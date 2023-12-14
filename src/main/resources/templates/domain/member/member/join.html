@@ -10,6 +10,13 @@
 
     <script>
         function submitJoinForm(form) {
+            form.nickname.value = form.nickname.value.trim();
+            if (form.nickname.value.length == 0) {
+                toastWarning('nickname를 입력해주세요.');
+                form.nickname.focus();
+                return;
+            }
+
             form.username.value = form.username.value.trim();
 
             if (form.username.value.length == 0) {
@@ -45,6 +52,11 @@
     </script>
 
     <form th:action method="POST" onsubmit="submitJoinForm(this); return false;">
+        <div>
+            <label>사용자 nick name</label>
+            <input type="text" name="nickname">
+        </div>
+
         <div>
             <label>사용자 ID</label>
             <input type="text" name="username">
