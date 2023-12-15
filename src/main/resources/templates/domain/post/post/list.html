@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html layout:decorate="~{global/usrLayout}" lang="ko">
+<head>
+    <title>글 목록</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <table>
+        <thead>
+        <tr>
+            <th>작성자</th>
+            <th>제목</th>
+            <th>작성일</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="post : ${page != null ? page.content : ''}">
+            <td th:text="${post.nickname}"></td>
+            <td>
+                <a th:href="@{|/post/${post.id}|}" th:text="${post.title}"></a>
+            </td>
+            <td th:text="${post.createDate}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <div th:if="${page != null}">
+        <ul>
+            <li th:if="${page.first}">첫 페이지</li>
+            <li th:unless="${page.first}"><a th:href="@{/post/list(page=${page.number})}">이전 페이지</a></li>
+            <li th:if="${page.totalPages > 0}" th:each="i : ${#numbers.sequence(page.number - 5 > 0 ? page.number - 5 : 0, page.number + 4 < page.totalPages - 1 ? page.number + 4 : page.totalPages - 1)}">
+                <a th:href="@{/post/list(page=${i + 1})}" th:text="${i + 1}"></a>
+            </li>
+            <li th:if="${page.last}">마지막 페이지</li>
+            <li th:unless="${page.last}"><a th:href="@{/post/list(page=${page.number + 2})}">다음 페이지</a></li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>

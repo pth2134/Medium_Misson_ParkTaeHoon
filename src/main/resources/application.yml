@@ -16,7 +16,7 @@ spring:
     driver-class-name: org.h2.Driver
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     properties:
       hibernate:
         default_batch_fetch_size: 100
@@ -33,7 +33,7 @@ logging:
 custom:
   site:
     name: medium
-    baseUrl: "http://localhost:${server.port}"
+    baseUrl: "http://localhost:8080"
   tempDirPath: c:/temp/medium_dev/temp
   genFile:
     dirPath: c:/temp/medium_dev
