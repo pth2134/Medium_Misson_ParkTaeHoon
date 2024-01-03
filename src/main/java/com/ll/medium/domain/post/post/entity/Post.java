@@ -28,6 +28,7 @@ public class Post {
     private String title;
     private String content;
     private boolean isPublished;
+    private boolean isPaid;
     private String nickname;
 
     @ManyToOne(fetch = FetchType.LAZY)

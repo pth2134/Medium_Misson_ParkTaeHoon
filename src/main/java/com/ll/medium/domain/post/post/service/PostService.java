@@ -7,8 +7,10 @@ import com.ll.medium.domain.post.post.reopository.PostRepository;
 import com.ll.medium.global.rsData.RsData.RsData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.security.core.userdetails.User;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -23,7 +25,7 @@ public class PostService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public RsData<Post> createPost(Member author, String title, String content, boolean isPublished) {
+    public RsData<Post> createPost(Member author, String title, String content, boolean isPublished, boolean isPaid) {
         Post post = Post.builder()
                 .member(author)
                 .nickname(author.getNickname())
@@ -55,6 +57,7 @@ public class PostService {
         }
         return posts;
     }
+
     public Page<Post> getMyList(int page, Member member) {
         List<Sort.Order> sorts = new ArrayList<>();
         sorts.add(Sort.Order.desc("createDate"));
@@ -91,14 +94,14 @@ public class PostService {
     }
 
 
-
     public boolean canDelete(Member actor, Post post) {
         if (actor.isAdmin()) return true;
 
         return canModify(actor, post);
     }
+
     @Transactional
-    public void delete(long id){
+    public void delete(long id) {
         postRepository.deleteById(id);
     }
 
@@ -108,7 +111,7 @@ public class PostService {
         Pageable pageable = PageRequest.of(page - 1, 30, Sort.by(sorts));
         Optional<Member> opMember = memberRepository.findByNickname(nickname);
 
-        if(opMember.isEmpty()) return new PageImpl<>(new ArrayList<>(), pageable, 0);
+        if (opMember.isEmpty()) return new PageImpl<>(new ArrayList<>(), pageable, 0);
 
         Page<Post> posts = postRepository.findByMember(opMember.get(), pageable);
         if (posts == null) {
@@ -116,5 +119,13 @@ public class PostService {
             return new PageImpl<>(new ArrayList<>(), pageable, 0);
         }
         return posts;
+    }
+
+    public long getPostCount() {
+        return postRepository.count();
+    }
+
+    public boolean canShow(User user, Post post) {
+        return !post.isPaid() || user.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_PAID"));
     }
 }
