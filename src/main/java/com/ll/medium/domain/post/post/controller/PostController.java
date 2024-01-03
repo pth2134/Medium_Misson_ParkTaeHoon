@@ -110,8 +110,8 @@ public class PostController {
 
         if (!postService.canModify(rq.getMember(), post)) throw new RuntimeException("수정권한이 없습니다.");
 
-        RsData<Post> postRs = postService.modify(post,modifyForm.getTitle(),modifyForm.getContent());
-        postService.modify(post, modifyForm.title, modifyForm.content);
+        RsData<Post> postRs = postService.modify(post,modifyForm.getTitle(),modifyForm.getContent(),modifyForm.getIsPublished());
+        postService.modify(post, modifyForm.title, modifyForm.content, modifyForm.isPublished);
 
         return rq.redirectOrBack(postRs,"/");
     }

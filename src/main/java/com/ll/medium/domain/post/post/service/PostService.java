@@ -73,9 +73,10 @@ public class PostService {
     }
 
     @Transactional
-    public RsData<Post> modify(Post post, String title, String content) {
+    public RsData<Post> modify(Post post, String title, String content, Boolean isPublished) {
         post.setTitle(title);
         post.setContent(content);
+        post.setPublished(isPublished);
         post.setModifyDate(LocalDateTime.now());
         return RsData.of("200"
                 , "글수정이 완료되었습니다."
