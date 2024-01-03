@@ -79,12 +79,12 @@ public class PostController {
     }
 
     @GetMapping("/{postId}")
+    @PreAuthorize("isAuthenticated()")
     public String PostDetail(@PathVariable Long postId, Model model) {
         Post post = postService.getPostById(postId);
-        if (!postService.canShow(rq.getUser(), post)) {
-            model.addAttribute("isPaymentRequired", true);
-            model.addAttribute("postId", postId);
-            return "domain/post/post/require_payment"; // 결제 요구 페이지로 이동
+
+        if (!postService.canShow(rq.getMember(), post)) {
+            return rq.historyBack("이 글은 유료멤버십전용 입니다.");
         }
         model.addAttribute("post", post);
         return "domain/post/post/post_detail"; // 일반 게시물 뷰 반환
@@ -132,10 +132,8 @@ public class PostController {
     String DeletePost(@PathVariable long id) {
         Post post = postService.getPostById(id);
 
-        if (!postService.canModify(rq.getMember(), post)) throw new RuntimeException("수정권한이 없습니다.");
-
-        rq.setAttribute("post", post);
-
+        if (!postService.canModify(rq.getMember(), post)) throw new RuntimeException("삭제권한이 없습니다.");
+        postService.delete(post.getId());
         return rq.redirect("/", "%d번 글이 삭제되었습니다.".formatted(id));
     }
 }

@@ -7,10 +7,8 @@ import com.ll.medium.domain.post.post.reopository.PostRepository;
 import com.ll.medium.global.rsData.RsData.RsData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.security.core.userdetails.User;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -34,6 +32,7 @@ public class PostService {
                 .createDate(LocalDateTime.now())
                 .modifyDate(LocalDateTime.now())
                 .isPublished(isPublished)
+                .isPaid(isPaid)
                 .build();
         postRepository.save(post);
         return RsData.of("200"
@@ -125,7 +124,7 @@ public class PostService {
         return postRepository.count();
     }
 
-    public boolean canShow(User user, Post post) {
-        return !post.isPaid() || user.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_PAID"));
+    public boolean canShow(Member member, Post post) {
+        return !post.isPaid() || member.isPaid() || post.getMember().equals(member);
     }
 }
