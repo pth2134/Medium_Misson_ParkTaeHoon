@@ -34,11 +34,8 @@ public class PostController {
         private String title;
         @NotBlank
         private String content;
-        private String isPublished;
 
-        public boolean getIsPublished() {
-            return "on".equals(isPublished);
-        }
+        private Boolean isPublished;
     }
 
     @PostMapping("/write")
@@ -102,11 +99,8 @@ public class PostController {
         private String title;
         @NotBlank
         private String content;
-        private String isPublished;
+        private Boolean isPublished;
 
-        public boolean getIsPublished() {
-            return "on".equals(isPublished);
-        }
     }
 
     @PreAuthorize("isAuthenticated()")
