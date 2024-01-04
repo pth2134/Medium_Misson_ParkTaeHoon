@@ -84,7 +84,7 @@ public class PostController {
         Post post = postService.getPostById(postId);
 
         if (!postService.canShow(rq.getMember(), post)) {
-            return rq.historyBack("이 글은 유료멤버십전용 입니다.");
+            post.setContent("이 글은 유료멤버십전용 입니다.");
         }
         model.addAttribute("post", post);
         return "domain/post/post/post_detail"; // 일반 게시물 뷰 반환
