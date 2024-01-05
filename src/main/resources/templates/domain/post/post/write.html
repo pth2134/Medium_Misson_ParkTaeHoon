@@ -39,8 +39,18 @@
             <textarea name="content" style="width: 500px; height: 200px;"></textarea>
         </div>
         <div>
-            <input type="checkbox" name="isPublished"/>
+            <!-- 체크박스 필드 -->
+            <input type="checkbox" name="isPublished" value="true"/>
             <span>이 글을 공개하기</span>
+            <!-- 숨겨진 필드를 체크박스 앞에 추가합니다. 체크박스가 체크되지 않았을 때 이 값이 전송됩니다. -->
+            <input type="hidden" name="isPublished" value="false"/>
+        </div>
+        <div>
+            <!-- 체크박스 필드 -->
+            <input type="checkbox" name="isPaid" value="true"/>
+            <span>유료글로 등록하기</span>
+            <!-- 숨겨진 필드를 체크박스 앞에 추가합니다. 체크박스가 체크되지 않았을 때 이 값이 전송됩니다. -->
+            <input type="hidden" name="isPaid" value="false"/>
         </div>
         <button type="submit">작성</button>
     </form>

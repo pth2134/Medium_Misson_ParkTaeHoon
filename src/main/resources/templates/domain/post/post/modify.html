@@ -39,8 +39,18 @@
             <textarea name="content" th:text="${post.content}" style="width: 500px; height: 200px;"></textarea>
         </div>
         <div>
-            <input type="checkbox" th:checked="${post.isPublished}" name="isPublished"/>
+            <!-- 체크박스 필드 -->
+            <input type="checkbox" th:checked="${post.isPublished}" name="isPublished" value="true"/>
+            <!-- 숨겨진 필드를 체크박스 앞에 추가합니다. 체크박스가 체크되지 않았을 때 이 값이 전송됩니다. -->
+            <input type="hidden" name="isPublished" value="false"/>
             <span>이 글을 공개하기</span>
+        </div>
+        <div>
+            <!-- 체크박스 필드 -->
+            <input type="checkbox" th:checked="${post.isPaid}" name="isPaid" value="true"/>
+            <!-- 숨겨진 필드를 체크박스 앞에 추가합니다. 체크박스가 체크되지 않았을 때 이 값이 전송됩니다. -->
+            <input type="hidden" name="isPaid" value="false"/>
+            <span>유료글로 등록하기</span>
         </div>
         <button type="submit">수정</button>
     </form>

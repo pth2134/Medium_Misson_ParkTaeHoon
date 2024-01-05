@@ -35,6 +35,7 @@ public class Member {
     private String username;
     private String password;
     private String nickname;
+    private boolean isPaid;
 
     @OneToMany(cascade = CascadeType.REMOVE,fetch = FetchType.LAZY)
     private List<Post> posts;
@@ -45,6 +46,7 @@ public class Member {
         if(List.of("system","admin").contains(username)){
             authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
         }
+        if(this.isPaid) authorities.add(new SimpleGrantedAuthority("ROLE_PAID"));
         return authorities;
     }
 
